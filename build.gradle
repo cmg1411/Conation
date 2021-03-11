@@ -34,6 +34,8 @@ dependencies {
 	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// H2 Database
+	runtimeOnly 'com.h2database:h2'
 }
 
 test {
