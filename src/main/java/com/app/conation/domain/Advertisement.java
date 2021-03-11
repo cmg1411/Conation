@@ -33,8 +33,19 @@ public class Advertisement extends BaseEntity {
     @Column(name = "advertisementOwnerId")
     private Long advertisementOwnerId;
 
+    @Column(name = "advertisementCategory")
+    @Enumerated(EnumType.STRING)
+    private AdvertisementCategory advertisementCategory;
+
+    @Column(name = "viewCount")
+    private Long viewCount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private State state;
 
+    @Getter
+    private enum AdvertisementCategory{
+        FOOD, PRODUCT, SERVICE, CULTURE
+    }
 }
