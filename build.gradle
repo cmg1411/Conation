@@ -36,6 +36,9 @@ dependencies {
 
 	// H2 Database
 	runtimeOnly 'com.h2database:h2'
+
+	// MySQL
+	runtimeOnly 'mysql:mysql-connector-java'
 }
 
 test {
