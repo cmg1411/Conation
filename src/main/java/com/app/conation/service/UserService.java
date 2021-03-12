@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,7 @@ public class UserService {
             .regionId(getRegionByCityId(signUpRequestDto.getRegionId()))
             .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
             .phoneNumber(signUpRequestDto.getPhoneNumber())
+            .roles(Collections.singletonList("ROLE_USER"))
             .build();
 
         userRepository.save(signUpUser);
@@ -68,5 +70,10 @@ public class UserService {
         if (!passwordEncoder.matches(password, passwordRe)) {
             throw new InvalidPasswordException();
         }
+    }
+
+    public void deleteUser(Object principal) {
+        Long userIdx = ((User) principal).getId();
+        userRepository.deleteById(userIdx);
     }
 }

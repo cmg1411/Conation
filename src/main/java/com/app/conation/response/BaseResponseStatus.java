@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public enum BaseResponseStatus {
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
+
+    // 회원가입, 로그인 관련 에러코드
     DATA_VALIDATION_ERROR(false, 2001, "값을 입력하셔야 합니다."),
     NOT_EXIST_REGION_ERROR(false, 2002, "존재하지 않는 지역입니다."),
     INVALID_PASSWORD_ERROR(false, 2003, "비밀번호가 유효하지 않습니다."),
