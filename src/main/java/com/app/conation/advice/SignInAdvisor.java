@@ -51,4 +51,9 @@ public class SignInAdvisor {
     public BaseResponse<Object> passwordsNotEqualExceptionHandler(NotExistUserException ex) {
         return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ERROR);
     }
+
+    @ExceptionHandler(MessageSendFailException.class)
+    public BaseResponse<Object> passwordsNotEqualExceptionHandler(MessageSendFailException ex) {
+        return new BaseResponse<>(BaseResponseStatus.MESSAGE_SEND_FAIL_ERROR);
+    }
 }

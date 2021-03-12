@@ -1,53 +1,60 @@
 package com.app.conation.domain.draw;
 
+import com.app.conation.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Component
 public class RandomPrize {
 
-    enum DayPrice {
-        SUN(1, "베스킨라빈스", 0.3),
-        MON(2, "비타500", 1.0),
-        THU(3, "비타500", 1.0),
-        WEN(4, "비타500", 1.0),
-        TUR(5, "비타500", 1.0),
-        FRI(6, "비타500", 1.0),
-        SAT(7, "스타벅스 아메리카노", 0.3);
+    enum WinningStatus {
+        WIN("당첨 !!"), NO("다음 기회에..");
 
-        private int dayOfWeek;
-        private String prize;
-        private double winningRate;
+        private String status;
 
-        DayPrice(int dayOfWeek, String prize, double winningRate) {
-            this.dayOfWeek = dayOfWeek;
-            this.prize = prize;
-            this.winningRate = winningRate;
+        WinningStatus(String status) {
+            this.status = status;
         }
     }
 
-    enum WinningStatus {
-        WIN, NO;
-    }
+    @Autowired
+    private MessageSender messageSender;
 
-    private DayPrice dayPrice;
+    private final DayPrice dayPrice;
 
     public RandomPrize() {
-        Calendar calendar = Calendar.getInstance();
-        Optional<DayPrice> todayPrize = Arrays.stream(DayPrice.values())
-            .filter(day -> day.dayOfWeek == calendar.get(Calendar.DAY_OF_WEEK))
-            .findAny();
-        this.dayPrice = todayPrize.orElseThrow();
+        this.dayPrice = getDayPrice();
     }
 
-    public WinningStatus draw() {
+    public static DayPrice getDayPrice() {
+        Calendar calendar = Calendar.getInstance();
+        return Arrays.stream(DayPrice.values())
+            .filter(day -> day.getDayOfWeek() == calendar.get(Calendar.DAY_OF_WEEK))
+            .findAny()
+            .orElseGet(() -> DayPrice.MON);
+    }
+
+    public String draw(User user) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int drawNum = random.nextInt(1000) + 1;
-        if (drawNum<=(1000*dayPrice.winningRate/100)) {
-            return WinningStatus.WIN;
-        } else {
-            return WinningStatus.NO;
+        if (isWinner(drawNum)) {
+            sendMessage(user);
+            return WinningStatus.WIN.status;
         }
+        return WinningStatus.NO.status;
+    }
+
+    private boolean isWinner(int drawNum) {
+        double WinnerNum = 1000 * dayPrice.getWinningRate() / 100;
+        return drawNum <= WinnerNum;
+    }
+
+    private void sendMessage(User user) {
+        UserMessageParameters userMessageParameters = messageSender.userInformationSetting(user, getDayPrice());
+        messageSender.sendSMS(userMessageParameters);
     }
 }

@@ -14,4 +14,6 @@ public class MyScoreResponseDto {
     private Long id;
     private String nickname;
     private Long point;
+    private String todayPrize;
+    private double prizeWinRate;
 }
