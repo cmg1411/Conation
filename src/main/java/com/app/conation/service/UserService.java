@@ -4,10 +4,13 @@ import com.app.conation.domain.Region;
 import com.app.conation.domain.RegionRepository;
 import com.app.conation.domain.User;
 import com.app.conation.domain.UserRepository;
+import com.app.conation.domain.draw.RandomPrize;
+import com.app.conation.dto.MyScoreResponseDto;
 import com.app.conation.dto.SignInRequestDto;
 import com.app.conation.dto.SignUpRequestDto;
 import com.app.conation.exception.*;
 import com.app.conation.jwt.JwtProvider;
+import com.app.conation.util.StringUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +39,7 @@ public class UserService {
             .nickname(signUpRequestDto.getNickname())
             .regionId(getRegionByCityId(signUpRequestDto.getRegionId()))
             .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
-            .phoneNumber(signUpRequestDto.getPhoneNumber())
+            .phoneNumber(StringUtility.subHyphen(signUpRequestDto.getPhoneNumber()))
             .roles(Collections.singletonList("ROLE_USER"))
             .build();
 
@@ -67,6 +70,7 @@ public class UserService {
     }
 
     private void isValidPassword(String password, String passwordRe) {
+
         if (!passwordEncoder.matches(password, passwordRe)) {
             throw new InvalidPasswordException();
         }
@@ -75,5 +79,21 @@ public class UserService {
     public void deleteUser(Object principal) {
         Long userIdx = ((User) principal).getId();
         userRepository.deleteById(userIdx);
+    }
+
+    public MyScoreResponseDto getMyPrice(Object principal) {
+        Long userIdx = ((User) principal).getId();
+<<<<<<< HEAD
+        User selectedUser = userRepository.findById(userIdx).orElseThrow(NotExistUserException::new);
+        return MyScoreResponseDto.builder()
+            .id(selectedUser.getId())
+            .nickname(selectedUser.getNickname())
+            .point(selectedUser.getExperiencePoint())
+            .todayPrize(RandomPrize.getDayPrice().getPrize())
+            .prizeWinRate(RandomPrize.getDayPrice().getWinningRate())
+            .build();
+=======
+        User selectedUser = userRepository.findByUserId(userIdx.toString()).orElseThrow();
+>>>>>>> main
     }
 }

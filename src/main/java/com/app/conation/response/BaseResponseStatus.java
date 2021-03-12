@@ -19,7 +19,13 @@ public enum BaseResponseStatus {
     INVALID_JWT_ERROR(false, 2004, "Jwt 토큰이 유효하지 않습니다."),
     NOT_EXIST_USERID_ERROR(false, 2005, "존재하지 않는 아이디입니다."),
     PASSWORDS_HAVE_TO_SAME_ERROR(false, 2006, "비밀번호를 같게 입력해야합니다."),
-    ALREADY_EXIST_USERID_ERROR(false, 2007, "이미 존재하는 아이디입니다.");
+    ALREADY_EXIST_USERID_ERROR(false, 2007, "이미 존재하는 아이디입니다."),
+
+    NOT_EXIST_USER_ERROR(false, 2500, "존제하지 않는 회원입니다."),
+    MESSAGE_SEND_FAIL_ERROR(false, 2600, "메세지 전송에 실패하였습니다."),
+
+    NOT_ENOUGH_POINT_ERROR(false, 2700, "포인트가 부족합니다.")
+    ;
 
 
     private boolean isSuccess;
