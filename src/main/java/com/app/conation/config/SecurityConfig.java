@@ -23,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .authorizeRequests()
-                .antMatchers("/*").permitAll()
+                .authorizeRequests()
+                .antMatchers("/signIn", "/signUp", "/exception/entrypoint", "/advertisements").permitAll()
                 .anyRequest().hasRole("USER")
             .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
@@ -34,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/h2-console", "/swagger-ui.html")
-                .anyRequest();
+        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
+            "/swagger-ui.html", "/webjars/**", "/swagger/**");
     }
 }

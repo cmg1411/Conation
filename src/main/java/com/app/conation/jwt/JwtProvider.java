@@ -1,11 +1,13 @@
 package com.app.conation.jwt;
 
 import com.app.conation.domain.User;
+import com.app.conation.service.CustomUserDetailService;
 import com.app.conation.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +31,8 @@ public class JwtProvider {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public JwtProvider(UserService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public JwtProvider(CustomUserDetailService customUserDetailService) {
+        this.userDetailsService = customUserDetailService;
     }
 
     @PostConstruct
