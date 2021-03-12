@@ -13,6 +13,7 @@ public class MyScoreRes {
 
     private Long id;
     private String nickname;
+    private String myRegion;
     private Long point;
     private String todayPrize;
     private double prizeWinRate;

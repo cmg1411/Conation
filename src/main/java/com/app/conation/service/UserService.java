@@ -87,6 +87,7 @@ public class UserService {
         return MyScoreRes.builder()
             .id(selectedUser.getId())
             .nickname(selectedUser.getNickname())
+            .myRegion(selectedUser.getRegionId().getRegionName())
             .point(selectedUser.getExperiencePoint())
             .todayPrize(RandomPrize.getDayPrice().getPrize())
             .prizeWinRate(RandomPrize.getDayPrice().getWinningRate())
