@@ -1,3 +1,6 @@
+use Conation;
+
+
 insert into region
 values (1, current_timestamp, current_timestamp, 0, '서울특별시');
 insert into region
@@ -31,5 +34,3 @@ insert into user
 values (4, current_timestamp, current_timestamp, 0, '닉네임4', '비밀번호4', '010-4444-2222', 'ACTIVE', '유저 찐아이디1', 1);
 insert into user
 values (5, current_timestamp, current_timestamp, 0, '닉네임5', '비밀번호5', '010-5555-2222', 'ACTIVE', '유저 찐아이디1', 2);
-
-
