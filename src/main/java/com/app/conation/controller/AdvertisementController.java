@@ -36,4 +36,10 @@ public class AdvertisementController {
         Pageable pageable = PageRequest.of(page - 1, 10);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementProvider.retrieveAdvertisements(pageable, category));
     }
+
+    @ApiOperation(value = "광고 생성")
+    @PostMapping("/advertisements")
+    public BaseResponse<Long> postAdvertisement(@RequestBody @Valid PostAdvertisementReq request) {
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.createAdvertisement(request));
+    }
 }
