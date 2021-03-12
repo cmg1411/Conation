@@ -1,13 +1,13 @@
 package com.app.conation.service;
 
-import com.app.conation.domain.Advertisement;
-import com.app.conation.domain.AdvertisementRepository;
-import com.app.conation.domain.State;
+import com.app.conation.domain.*;
 import com.app.conation.provider.AdvertisementProvider;
 import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
 import com.app.conation.request.ViewAdvertisementReq;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +20,13 @@ public class AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementProvider advertisementProvider;
+    private final DonationStatusService donationStatusService;
 
     @Autowired
-    public AdvertisementService(AdvertisementRepository advertisementRepository, AdvertisementProvider advertisementProvider) {
+    public AdvertisementService(AdvertisementRepository advertisementRepository, AdvertisementProvider advertisementProvider, DonationStatusService donationStatusService) {
         this.advertisementRepository = advertisementRepository;
         this.advertisementProvider = advertisementProvider;
+        this.donationStatusService = donationStatusService;
     }
 
     public Long createAdvertisement(PostAdvertisementReq request) {
@@ -64,8 +66,13 @@ public class AdvertisementService {
     public Long viewAdvertisement(ViewAdvertisementReq viewAdvertisementRequest) {
         Advertisement advertisement = advertisementProvider
                 .getAdvertisementById(viewAdvertisementRequest.getAdvertisementId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Region region = ((User) authentication.getPrincipal()).getRegionId();
+
+        donationStatusService.addTodayDonationScore(region, advertisement.getPrice());
         advertisement.setViewCount(advertisement.getViewCount() + ONE);
         advertisementRepository.save(advertisement);
+
         return viewAdvertisementRequest.getAdvertisementId();
     }
 }
