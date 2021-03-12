@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum OrderType {
-    NONE(""), VIEW("viewCount"), PRICE("price");
+    NONE(""), VIEW("viewCount"), SCORE("score");
 
     private String field;
 
