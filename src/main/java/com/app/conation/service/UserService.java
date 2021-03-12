@@ -76,4 +76,10 @@ public class UserService {
         Long userIdx = ((User) principal).getId();
         userRepository.deleteById(userIdx);
     }
+
+    public void getPoint(Object principal) {
+        Long userIdx = ((User) principal).getId();
+        User selectedUser = userRepository.findByUserId(userIdx.toString()).orElseThrow();
+
+    }
 }

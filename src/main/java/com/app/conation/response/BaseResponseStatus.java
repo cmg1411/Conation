@@ -14,6 +14,8 @@ public enum BaseResponseStatus {
     NOT_EXIST_USERID_ERROR(false, 2005, "존재하지 않는 아이디입니다."),
     PASSWORDS_HAVE_TO_SAME_ERROR(false, 2006, "비밀번호를 같게 입력해야합니다."),
     ALREADY_EXIST_USERID_ERROR(false, 2007, "이미 존재하는 아이디입니다."),
+
+    NOT_EXIST_USER_ERROR(false, 2500, "존제하지 않는 회원입니다.")
     ;
 
     private boolean isSuccess;

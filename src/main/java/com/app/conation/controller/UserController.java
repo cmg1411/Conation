@@ -37,14 +37,4 @@ public class UserController {
         String jwt = userService.userSignIn(signInRequestDto);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, jwt);
     }
-
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @DeleteMapping("/deleteUser")
-    public BaseResponse<Object> deleteUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userService.deleteUser(authentication.getPrincipal());
-        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
-    }
 }

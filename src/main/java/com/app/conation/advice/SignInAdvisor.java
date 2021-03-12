@@ -46,4 +46,9 @@ public class SignInAdvisor {
     public BaseResponse<Object> passwordsNotEqualExceptionHandler(PasswordsNotEqualException ex) {
         return new BaseResponse<>(BaseResponseStatus.PASSWORDS_HAVE_TO_SAME_ERROR);
     }
+
+    @ExceptionHandler(NotExistUserException.class)
+    public BaseResponse<Object> passwordsNotEqualExceptionHandler(NotExistUserException ex) {
+        return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ERROR);
+    }
 }
