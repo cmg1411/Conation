@@ -1,6 +1,8 @@
 package com.app.conation.domain;
 
 import com.app.conation.config.BaseEntity;
+import com.app.conation.enums.AdvertisementCategory;
+import com.app.conation.response.GetAdvertisementRes;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,8 +46,15 @@ public class Advertisement extends BaseEntity {
     @Column(name = "state")
     private State state;
 
-    @Getter
-    private enum AdvertisementCategory{
-        FOOD, PRODUCT, SERVICE, CULTURE
+    public GetAdvertisementRes toGetAdvertisementRes() {
+        Long advertisementId = this.id;
+        String advertisementName = this.advertisementName;
+        String url = this.url;
+        Long minutes = this.length / 60;
+        Long seconds = this.length % 60;
+        Long price = this.price;
+        Long viewCount = this.viewCount;
+        return new GetAdvertisementRes(advertisementId, advertisementName, url, minutes, seconds, price, viewCount);
     }
+
 }
