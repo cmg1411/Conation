@@ -40,11 +40,8 @@ public class AdvertisementService {
     }
 
     public Long updateAdvertisement(PatchAdvertisementReq request) {
-        Optional<Advertisement> findedAdvertisement = advertisementRepository.findById(request.getAdvertisementId());
-        if (findedAdvertisement.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_ADVERTISEMENT);
-        }
-        Advertisement advertisement = findedAdvertisement.get();
+        Long advertisementId = request.getAdvertisementId();
+        Advertisement advertisement = getAdvertisementById(advertisementId);
         advertisement.setAdvertisementCategory(request.getAdvertisementCategory())
                 .setAdvertisementName(request.getAdvertisementName())
                 .setAdvertisementOwnerId(request.getAdvertisementOwnerId())
@@ -53,5 +50,19 @@ public class AdvertisementService {
                 .setUrl(request.getUrl());
         advertisementRepository.save(advertisement);
         return request.getAdvertisementId();
+    }
+
+    public Long deleteAdvertisement(Long advertisementId) {
+        Advertisement advertisement = getAdvertisementById(advertisementId);
+        advertisement.setState(State.INACTIVE);
+        return advertisementId;
+    }
+
+    private Advertisement getAdvertisementById(Long advertisementId) {
+        Optional<Advertisement> optionalAdvertisement = advertisementRepository.findById(advertisementId);
+        if (optionalAdvertisement.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_ADVERTISEMENT);
+        }
+        return optionalAdvertisement.get();
     }
 }

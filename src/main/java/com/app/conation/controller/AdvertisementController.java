@@ -50,4 +50,10 @@ public class AdvertisementController {
     public BaseResponse<Long> updateAdvertisement(@RequestBody @Valid PatchAdvertisementReq request) {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.updateAdvertisement(request));
     }
+
+    @ApiOperation(value = "광고 삭제")
+    @DeleteMapping("/advertisements/{advertisementId}")
+    public BaseResponse<Long> deleteAdvertisement(@PathVariable Long advertisementId) {
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.deleteAdvertisement(advertisementId));
+    }
 }
