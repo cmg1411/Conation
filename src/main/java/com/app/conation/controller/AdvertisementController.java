@@ -46,7 +46,8 @@ public class AdvertisementController {
                                                                      @RequestParam OrderType orderType) {
         Pageable pageable = PageRequest.of(page - ONE, DEFAULT_PAGING_SIZE);
         if (!orderType.equals(OrderType.NONE)) {
-            pageable = PageRequest.of(page - ONE, DEFAULT_PAGING_SIZE, Sort.by(orderType.getField()).descending());
+            pageable = PageRequest.of(page - ONE, DEFAULT_PAGING_SIZE,
+                    Sort.by(Sort.Order.desc(orderType.getField()), Sort.Order.desc("createdAt")));
         }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementProvider.retrieveAdvertisements(pageable, category));
     }
