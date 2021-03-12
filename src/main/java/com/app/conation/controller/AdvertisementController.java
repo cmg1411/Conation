@@ -2,6 +2,7 @@ package com.app.conation.controller;
 
 import com.app.conation.enums.AdvertisementCategory;
 import com.app.conation.provider.AdvertisementProvider;
+import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
@@ -42,5 +43,11 @@ public class AdvertisementController {
     @PostMapping("/advertisements")
     public BaseResponse<Long> postAdvertisement(@RequestBody @Valid PostAdvertisementReq request) {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.createAdvertisement(request));
+    }
+
+    @ApiOperation(value = "광고 수정")
+    @PatchMapping("/advertisements")
+    public BaseResponse<Long> updateAdvertisement(@RequestBody @Valid PatchAdvertisementReq request) {
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.updateAdvertisement(request));
     }
 }

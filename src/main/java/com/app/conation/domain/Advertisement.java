@@ -4,9 +4,11 @@ import com.app.conation.config.BaseEntity;
 import com.app.conation.enums.AdvertisementCategory;
 import com.app.conation.response.GetAdvertisementRes;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+@Accessors(chain = true)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

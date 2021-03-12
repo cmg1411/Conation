@@ -3,10 +3,15 @@ package com.app.conation.service;
 import com.app.conation.domain.Advertisement;
 import com.app.conation.domain.AdvertisementRepository;
 import com.app.conation.domain.State;
+import com.app.conation.exception.BaseException;
+import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
+import com.app.conation.response.BaseResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -32,5 +37,21 @@ public class AdvertisementService {
                 .build();
         Advertisement savedAdvertisement = advertisementRepository.save(advertisement);
         return savedAdvertisement.getId();
+    }
+
+    public Long updateAdvertisement(PatchAdvertisementReq request) {
+        Optional<Advertisement> findedAdvertisement = advertisementRepository.findById(request.getAdvertisementId());
+        if (findedAdvertisement.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_ADVERTISEMENT);
+        }
+        Advertisement advertisement = findedAdvertisement.get();
+        advertisement.setAdvertisementCategory(request.getAdvertisementCategory())
+                .setAdvertisementName(request.getAdvertisementName())
+                .setAdvertisementOwnerId(request.getAdvertisementOwnerId())
+                .setLength(request.getLength())
+                .setPrice(request.getPrice())
+                .setUrl(request.getUrl());
+        advertisementRepository.save(advertisement);
+        return request.getAdvertisementId();
     }
 }
