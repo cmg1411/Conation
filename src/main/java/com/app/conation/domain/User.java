@@ -29,9 +29,9 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @JoinColumn(name = "cityId")
+    @JoinColumn(name = "regionId")
     @ManyToOne(fetch = FetchType.LAZY)
-    private City cityId;
+    private Region regionId;
 
     @Column(name = "phoneNumber")
     private String phoneNumber;
