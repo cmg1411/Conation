@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-                .antMatchers("/signIn", "/signUp", "/exception/entrypoint").permitAll()
+                .antMatchers("/signIn", "/signUp", "/exception/entrypoint", "/advertisements").permitAll()
                 .anyRequest().hasRole("USER")
             .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
