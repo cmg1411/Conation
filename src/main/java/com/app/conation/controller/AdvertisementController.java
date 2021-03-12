@@ -1,6 +1,7 @@
 package com.app.conation.controller;
 
 import com.app.conation.enums.AdvertisementCategory;
+import com.app.conation.enums.OrderType;
 import com.app.conation.provider.AdvertisementProvider;
 import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
@@ -14,10 +15,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.app.conation.config.Constant.DEFAULT_PAGING_SIZE;
+import static com.app.conation.config.Constant.ONE;
 
 @Api(tags = "광고 관리")
 @RestController
@@ -35,8 +40,12 @@ public class AdvertisementController {
     @ApiOperation(value = "광고 목록 조회")
     @GetMapping("/advertisements")
     public BaseResponse<List<GetAdvertisementRes>> getAdvertisements(@RequestParam Integer page,
-                                                                     @RequestParam(required = false) AdvertisementCategory category) {
-        Pageable pageable = PageRequest.of(page - 1, 10);
+                                                                     @RequestParam(required = false) AdvertisementCategory category,
+                                                                     @RequestParam OrderType orderType) {
+        Pageable pageable = PageRequest.of(page - ONE, DEFAULT_PAGING_SIZE);
+        if (!orderType.equals(OrderType.NONE)) {
+            pageable = PageRequest.of(page - ONE, DEFAULT_PAGING_SIZE, Sort.by(orderType.getField()).descending());
+        }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementProvider.retrieveAdvertisements(pageable, category));
     }
 
