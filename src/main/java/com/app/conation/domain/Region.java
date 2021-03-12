@@ -26,11 +26,11 @@ public class Region extends BaseEntity {
     private Long donationScore;
 
     @OneToMany(mappedBy = "regionId", cascade = CascadeType.ALL)
-    private List<City> cities;
+    private List<User> users;
 
-    public void addCity(City city) {
-        this.cities.add(city);
-        city.setRegionId(this);
+    public void addUser(User user) {
+        users.add(user);
+        user.setRegionId(this);
     }
 
 }
