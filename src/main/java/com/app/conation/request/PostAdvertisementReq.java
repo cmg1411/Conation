@@ -24,9 +24,9 @@ public class PostAdvertisementReq {
     @Positive(message = "광고 시간(초 단위)는 양수여야 합니다.")
     private Long length;
 
-    @NotNull(message = "광고 단가를 입력해주세요.")
-    @Positive(message = "광고 단가는 양수여야 합니다.")
-    private Long price;
+    @NotNull(message = "광고 점수를 입력해주세요.")
+    @Positive(message = "광고 점수는 양수여야 합니다.")
+    private Long score;
 
     @NotNull(message = "광고주 번호를 입력해주세요.")
     @Positive(message = "광고주 번호는 양수여야 합니다.")

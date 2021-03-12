@@ -34,7 +34,7 @@ public class AdvertisementService {
                 .advertisementName(request.getAdvertisementName())
                 .url(request.getUrl())
                 .length(request.getLength())
-                .price(request.getPrice())
+                .score(request.getScore())
                 .advertisementOwnerId(request.getAdvertisementOwnerId())
                 .advertisementCategory(request.getAdvertisementCategory())
                 .state(State.ACTIVE)
@@ -51,7 +51,7 @@ public class AdvertisementService {
                 .setAdvertisementName(request.getAdvertisementName())
                 .setAdvertisementOwnerId(request.getAdvertisementOwnerId())
                 .setLength(request.getLength())
-                .setPrice(request.getPrice())
+                .setScore(request.getScore())
                 .setUrl(request.getUrl());
         advertisementRepository.save(advertisement);
         return request.getAdvertisementId();
@@ -69,7 +69,7 @@ public class AdvertisementService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Region region = ((User) authentication.getPrincipal()).getRegionId();
 
-        donationStatusService.addTodayDonationScore(region, advertisement.getPrice());
+        donationStatusService.addTodayDonationScore(region, advertisement.getScore());
         advertisement.setViewCount(advertisement.getViewCount() + ONE);
         advertisementRepository.save(advertisement);
 

@@ -28,9 +28,9 @@ public class PatchAdvertisementReq {
     @NotNull(message = "광고 시간(초 단위)을 입력해주세요.")
     private Long length;
 
-    @Positive(message = "광고 단가는 양수여야 합니다.")
-    @NotNull(message = "광고 단가를 입력해주세요.")
-    private Long price;
+    @Positive(message = "광고 점수는 양수여야 합니다.")
+    @NotNull(message = "광고 점수를 입력해주세요.")
+    private Long score;
 
     @Positive(message = "광고주 번호는 양수여야 합니다.")
     @NotNull(message = "광고주 번호를 입력해주세요.")

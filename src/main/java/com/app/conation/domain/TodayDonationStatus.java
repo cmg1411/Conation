@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "donationStatus")
-public class DonationStatus extends BaseEntity {
+@Table(name = "todayDonationStatus")
+public class TodayDonationStatus extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,6 @@
 package com.app.conation.controller;
 
-import com.app.conation.provider.DonationStatusProvider;
+import com.app.conation.provider.TodayDonationStatusProvider;
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
 import com.app.conation.response.GetDonationStatusRes;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DonationStatusController {
+public class TodayDonationStatusController {
 
-    private final DonationStatusProvider donationStatusProvider;
+    private final TodayDonationStatusProvider donationStatusProvider;
     private final DonationStatusService donationStatusService;
 
     @Autowired
-    public DonationStatusController(DonationStatusProvider donationStatusProvider, DonationStatusService donationStatusService) {
+    public TodayDonationStatusController(TodayDonationStatusProvider donationStatusProvider, DonationStatusService donationStatusService) {
         this.donationStatusProvider = donationStatusProvider;
         this.donationStatusService = donationStatusService;
     }

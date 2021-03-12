@@ -33,8 +33,8 @@ public class Advertisement extends BaseEntity {
     @Column(name = "length")
     private Long length;
 
-    @Column(name = "price")
-    private Long price;
+    @Column(name = "score")
+    private Long score;
 
     @Column(name = "advertisementOwnerId")
     private Long advertisementOwnerId;
@@ -56,9 +56,9 @@ public class Advertisement extends BaseEntity {
         String url = this.url;
         Long minutes = this.length / 60;
         Long seconds = this.length % 60;
-        Long price = this.price;
+        Long score = this.score;
         Long viewCount = this.viewCount;
-        return new GetAdvertisementRes(advertisementId, advertisementName, url, minutes, seconds, price, viewCount);
+        return new GetAdvertisementRes(advertisementId, advertisementName, url, minutes, seconds, score, viewCount);
     }
 
 }

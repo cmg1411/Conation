@@ -10,5 +10,5 @@ import lombok.Setter;
 public class RegionDonationStatus {
 
     private String regionName;
-    private Long regionDonationScore;
+    private Long accumulatedRegionDonationScore;
 }
