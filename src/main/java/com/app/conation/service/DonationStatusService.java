@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @Service
 public class DonationStatusService {
@@ -27,5 +29,16 @@ public class DonationStatusService {
         donationStatus.setTodayDonationScore(todayDonationScore + donationScore);
         donationStatusRepository.save(donationStatus);
         return donationStatus.getId();
+    }
+
+    public void resetDonationScore() {
+        donationStatusRepository.findAll().stream()
+                .forEach(todayDonationStatus -> {
+                    Region region = todayDonationStatus.getRegionId();
+                    Long accumulatedDonationScore = region.getAccumulatedDonationScore();
+                    region.setAccumulatedDonationScore(accumulatedDonationScore + todayDonationStatus.getTodayDonationScore());
+                    todayDonationStatus.setTodayDonationScore(0L);
+                    donationStatusRepository.save(todayDonationStatus);
+                });
     }
 }
