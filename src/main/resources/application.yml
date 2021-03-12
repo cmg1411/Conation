@@ -24,3 +24,7 @@ spring:
     url: jdbc:mysql://conation.c7m1arbety88.ap-northeast-2.rds.amazonaws.com:3306/Conation
     username: conation
     password: conation123
+
+properties:
+  jwt:
+    secretKey: ConationApp
