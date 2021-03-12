@@ -1,4 +1,4 @@
-package com.app.conation.response;
+package com.app.conation.response.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

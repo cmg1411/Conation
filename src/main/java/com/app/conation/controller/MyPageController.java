@@ -1,7 +1,7 @@
 package com.app.conation.controller;
 
 <<<<<<< HEAD
-import com.app.conation.dto.MyScoreResponseDto;
+import com.app.conation.response.dto.MyScoreRes;
 =======
 >>>>>>> main
 import com.app.conation.response.BaseResponse;
@@ -29,7 +29,7 @@ public class MyPageController {
     })
     @PostMapping("/mypage")
 <<<<<<< HEAD
-    public BaseResponse<MyScoreResponseDto> getMyInformation() {
+    public BaseResponse<MyScoreRes> getMyInformation() {
 =======
     public BaseResponse<Object> getMyInformation() {
 >>>>>>> main

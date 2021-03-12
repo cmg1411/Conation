@@ -1,7 +1,7 @@
 package com.app.conation.controller;
 
-import com.app.conation.dto.SignInRequestDto;
-import com.app.conation.dto.SignUpRequestDto;
+import com.app.conation.request.SignInReq;
+import com.app.conation.request.SignUpReq;
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
 import com.app.conation.service.UserService;
@@ -22,14 +22,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signUp")
-    public BaseResponse<Object> signUp(@RequestBody @Validated SignUpRequestDto signUpRequestDto) {
-        userService.userSignUp(signUpRequestDto);
+    public BaseResponse<Object> signUp(@RequestBody @Validated SignUpReq signUpReq) {
+        userService.userSignUp(signUpReq);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
     @PostMapping("/signIn")
-    public BaseResponse<String> signIn(@RequestBody @Valid SignInRequestDto signInRequestDto) {
-        String jwt = userService.userSignIn(signInRequestDto);
+    public BaseResponse<String> signIn(@RequestBody @Valid SignInReq signInReq) {
+        String jwt = userService.userSignIn(signInReq);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, jwt);
     }
 }

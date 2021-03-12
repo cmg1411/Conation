@@ -1,4 +1,4 @@
-package com.app.conation.dto;
+package com.app.conation.request;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "nickname", "password", "passwordRepeat", "cityId", "phoneNumber"})
-public class SignUpRequestDto {
+public class SignUpReq {
 
     @NotBlank
     private String id;
