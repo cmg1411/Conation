@@ -28,6 +28,9 @@ public class Region extends BaseEntity {
     @OneToMany(mappedBy = "regionId", cascade = CascadeType.ALL)
     private List<User> users;
 
+    @OneToOne(mappedBy = "regionId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private DonationStatus donationStatusId;
+
     public void addUser(User user) {
         users.add(user);
         user.setRegionId(this);
