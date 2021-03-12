@@ -83,6 +83,7 @@ public class UserService {
 
     public MyScoreResponseDto getMyPrice(Object principal) {
         Long userIdx = ((User) principal).getId();
+<<<<<<< HEAD
         User selectedUser = userRepository.findById(userIdx).orElseThrow(NotExistUserException::new);
         return MyScoreResponseDto.builder()
             .id(selectedUser.getId())
@@ -91,5 +92,8 @@ public class UserService {
             .todayPrize(RandomPrize.getDayPrice().getPrize())
             .prizeWinRate(RandomPrize.getDayPrice().getWinningRate())
             .build();
+=======
+        User selectedUser = userRepository.findByUserId(userIdx.toString()).orElseThrow();
+>>>>>>> main
     }
 }

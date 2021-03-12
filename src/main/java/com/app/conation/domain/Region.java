@@ -22,11 +22,14 @@ public class Region extends BaseEntity {
     @Column(name = "regionName")
     private String regionName;
 
-    @Column(name = "donationScore")
-    private Long donationScore;
+    @Column(name = "accumulatedDonationScore")
+    private Long accumulatedDonationScore;
 
     @OneToMany(mappedBy = "regionId", cascade = CascadeType.ALL)
     private List<User> users;
+
+    @OneToOne(mappedBy = "regionId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private TodayDonationStatus donationStatusId;
 
     public void addUser(User user) {
         users.add(user);
