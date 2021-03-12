@@ -21,6 +21,6 @@ spring:
       enabled: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://conation.c7m1arbety88.ap-northeast-2.rds.amazonaws.com
+    url: jdbc:mysql://conation.c7m1arbety88.ap-northeast-2.rds.amazonaws.com/Conation
     username: conation
     password: conation123
