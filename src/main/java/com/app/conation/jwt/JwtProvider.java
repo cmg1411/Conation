@@ -1,5 +1,7 @@
 package com.app.conation.jwt;
 
+import com.app.conation.domain.User;
+import com.app.conation.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -22,12 +24,12 @@ public class JwtProvider {
     @Value("${properties.jwt.secretKey}")
     private String secretKey;
 
-    private long jwtValidPeriod = 1000 * 60L * 60L * 24 * 100; // 100일
+    private final long jwtValidPeriod = 1000 * 60L * 60L * 24 * 100; // 100일
 
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public JwtProvider(CustomUserDetailService userDetailsService) {
+    public JwtProvider(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -36,7 +38,7 @@ public class JwtProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String getJWT (BansikeeUser user, List<String> roles) {
+    public String getJWT (User user, List<String> roles) {
         Date now = new Date();
 
         return Jwts.builder()
@@ -54,11 +56,11 @@ public class JwtProvider {
         return header;
     }
 
-    private Claims setPayloads(BansikeeUser user, List<String> roles) {
+    private Claims setPayloads(User user, List<String> roles) {
         Claims payloads = Jwts.claims().setSubject(String.valueOf(user.getId()));
 
         payloads.put("userIdx", user.getId());
-        payloads.put("email", user.getEmail());
+        payloads.put("email", user.getNickname());
         payloads.put("roles", roles);
 
         return payloads;

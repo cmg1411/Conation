@@ -27,7 +27,7 @@ public class SignUpRequestDto {
     private String passwordRepeat;
 
     @Positive
-    private Long cityId;
+    private Long regionId;
 
     @NotBlank
     private String phoneNumber;
