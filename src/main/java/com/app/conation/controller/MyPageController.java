@@ -1,9 +1,6 @@
 package com.app.conation.controller;
 
-<<<<<<< HEAD
 import com.app.conation.response.dto.MyScoreRes;
-=======
->>>>>>> main
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
 import com.app.conation.service.UserService;
@@ -28,11 +25,7 @@ public class MyPageController {
         @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @PostMapping("/mypage")
-<<<<<<< HEAD
     public BaseResponse<MyScoreRes> getMyInformation() {
-=======
-    public BaseResponse<Object> getMyInformation() {
->>>>>>> main
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, userService.getMyPrice(authentication.getPrincipal()));
     }
