@@ -80,6 +80,5 @@ public class UserService {
     public void getPoint(Object principal) {
         Long userIdx = ((User) principal).getId();
         User selectedUser = userRepository.findByUserId(userIdx.toString()).orElseThrow();
-
     }
 }

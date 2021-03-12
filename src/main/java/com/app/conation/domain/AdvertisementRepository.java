@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 
-    @Query(value = "select a from Advertisement a where a.advertisementCategory = :category and a.state = :state")
+    @Query(value = "select a from Advertisement a where a.advertisementCategory = :category and a.state = :state order by a.createdAt desc ")
     Page<Advertisement> findAdvertisementsInCategory(Pageable pageable,
                                                      @Param("category") AdvertisementCategory category,
                                                      @Param("state") State state);
 
-    @Query(value = "select a from Advertisement a where a.state = :state")
+    @Query(value = "select a from Advertisement a where a.state = :state order by a.createdAt desc ")
     Page<Advertisement> findAdvertisements(Pageable pageable, @Param("state") State state);
 }
