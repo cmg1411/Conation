@@ -1,4 +1,4 @@
-package com.app.conation.domain;
+package com.app.conation.domain.draw;
 
 import java.util.Arrays;
 import java.util.Calendar;
