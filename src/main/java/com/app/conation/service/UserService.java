@@ -4,45 +4,50 @@ import com.app.conation.domain.Region;
 import com.app.conation.domain.RegionRepository;
 import com.app.conation.domain.User;
 import com.app.conation.domain.UserRepository;
+import com.app.conation.dto.SignInRequestDto;
 import com.app.conation.dto.SignUpRequestDto;
-import com.app.conation.exception.AlreadyExistIdException;
-import com.app.conation.exception.CityNotFoundException;
-import com.app.conation.exception.JWTDecodeException;
-import com.app.conation.exception.PasswordsNotEqualException;
+import com.app.conation.exception.*;
+import com.app.conation.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
+    private final JwtProvider jwtProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public void userSignUp(SignUpRequestDto signUpRequestDto) {
         isPasswordsEqual(signUpRequestDto);
 
-        Optional<User> userFound = userRepository.findByNickname(signUpRequestDto.getId());
-        if (userFound.isPresent()) {
-            throw new AlreadyExistIdException();
-        }
+        isValidId(signUpRequestDto);
 
         User signUpUser = User.builder()
             .userId(signUpRequestDto.getId())
             .nickname(signUpRequestDto.getNickname())
             .regionId(getRegionByCityId(signUpRequestDto.getRegionId()))
-            .password(signUpRequestDto.getPassword())
+            .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
             .phoneNumber(signUpRequestDto.getPhoneNumber())
+            .roles(Collections.singletonList("ROLE_USER"))
             .build();
 
         userRepository.save(signUpUser);
+    }
+
+    private void isValidId(SignUpRequestDto signUpRequestDto) {
+        Optional<User> userFound = userRepository.findByUserId(signUpRequestDto.getId());
+        if (userFound.isPresent()) {
+            throw new AlreadyExistIdException();
+        }
     }
 
     private void isPasswordsEqual(SignUpRequestDto signUpRequestDto) {
@@ -52,11 +57,23 @@ public class UserService implements UserDetailsService {
     }
 
     private Region getRegionByCityId(Long cityId) {
-        return regionRepository.findById(cityId).orElseThrow(CityNotFoundException::new);
+        return regionRepository.findById(cityId).orElseThrow(RegionNotFoundException::new);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        return userRepository.findById(Long.parseLong(id)).orElseThrow(JWTDecodeException::new);
+    public String userSignIn(SignInRequestDto signInRequestDto) {
+        User user = userRepository.findByUserId(signInRequestDto.getUserId()).orElseThrow(NotRegisteredIdException::new);
+        isValidPassword(signInRequestDto.getPassword(), user.getPassword());
+        return jwtProvider.getJWT(user, user.getRoles());
+    }
+
+    private void isValidPassword(String password, String passwordRe) {
+        if (!passwordEncoder.matches(password, passwordRe)) {
+            throw new InvalidPasswordException();
+        }
+    }
+
+    public void deleteUser(Object principal) {
+        Long userIdx = ((User) principal).getId();
+        userRepository.deleteById(userIdx);
     }
 }
