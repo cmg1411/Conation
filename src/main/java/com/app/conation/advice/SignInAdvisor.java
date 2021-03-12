@@ -1,33 +1,49 @@
 package com.app.conation.advice;
 
-import com.app.conation.exception.JWTDecodeException;
+import com.app.conation.exception.*;
+import com.app.conation.response.BaseResponse;
+import com.app.conation.response.BaseResponseStatus;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.naming.CommunicationException;
-import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 @AllArgsConstructor
 public class SignInAdvisor {
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    protected ResponseEntity<ErrorResponse> tokenValidationException(MethodArgumentNotValidException ex) {
-//        return new ResponseEntity<>(ErrorResponse.of(ErrorCode.INVALID_REQUEST_DATA), HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @ExceptionHandler(JWTDecodeException.class)
-//    public ResponseEntity<ErrorResponse> jwtDecodeException(JWTDecodeException ex) {
-//        return new ResponseEntity<>(ErrorResponse.of(ErrorCode.NOT_INVALID_JWT_TOKEN), HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @ExceptionHandler(CommunicationException.class)
-//    public ResponseEntity<ErrorResponse> communicationException(CommunicationException ex) {
-//        return new ResponseEntity<>(ErrorResponse.of(ErrorCode.COMMUNICATION_ERROR), HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected BaseResponse<Object> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+        return new BaseResponse<>(BaseResponseStatus.DATA_VALIDATION_ERROR);
+    }
+
+    @ExceptionHandler(AlreadyExistIdException.class)
+    public BaseResponse<Object> alreadyExistIdExceptionHandler(AlreadyExistIdException ex) {
+        return new BaseResponse<>(BaseResponseStatus.ALREADY_EXIST_USERID_ERROR);
+    }
+
+    @ExceptionHandler(RegionNotFoundException.class)
+    public BaseResponse<Object> regionNotFoundExceptionHandler(RegionNotFoundException ex) {
+        return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REGION_ERROR);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public BaseResponse<Object> invalidPasswordExceptionHandler(InvalidPasswordException ex) {
+        return new BaseResponse<>(BaseResponseStatus.INVALID_PASSWORD_ERROR);
+    }
+
+    @ExceptionHandler(JWTDecodeException.class)
+    public BaseResponse<Object> jwtDecodeExceptionHandler(JWTDecodeException ex) {
+        return new BaseResponse<>(BaseResponseStatus.INVALID_JWT_ERROR);
+    }
+
+    @ExceptionHandler(NotRegisteredIdException.class)
+    public BaseResponse<Object> notRegisteredIdExceptionHandler(NotRegisteredIdException ex) {
+        return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USERID_ERROR);
+    }
+
+    @ExceptionHandler(PasswordsNotEqualException.class)
+    public BaseResponse<Object> passwordsNotEqualExceptionHandler(PasswordsNotEqualException ex) {
+        return new BaseResponse<>(BaseResponseStatus.PASSWORDS_HAVE_TO_SAME_ERROR);
+    }
 }
