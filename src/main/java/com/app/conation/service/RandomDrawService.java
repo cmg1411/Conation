@@ -3,7 +3,7 @@ package com.app.conation.service;
 import com.app.conation.domain.User;
 import com.app.conation.domain.UserRepository;
 import com.app.conation.domain.draw.RandomPrize;
-import com.app.conation.dto.DrawResponseDto;
+import com.app.conation.response.dto.DrawRes;
 import com.app.conation.exception.NotEnoughPointException;
 import com.app.conation.exception.NotExistUserException;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +20,14 @@ public class RandomDrawService {
     private final UserRepository userRepository;
     private final RandomPrize randomPrize;
 
-    public DrawResponseDto randomDraw(Object principal) {
+    public DrawRes randomDraw(Object principal) {
         User user = (User) principal;
         String drawResult = randomPrize.draw(user);
         User userInDatabase = userRepository.findById(user.getId()).orElseThrow(NotExistUserException::new);
         isEnoughPoint(userInDatabase);
         long remainPoint = userInDatabase.getExperiencePoint() - COST_FOR_DRAW;
         userRepository.updateExperiencePoint(remainPoint, user.getId());
-        return DrawResponseDto.builder()
+        return DrawRes.builder()
             .drawResult(drawResult)
             .remainPoint(remainPoint)
             .build();

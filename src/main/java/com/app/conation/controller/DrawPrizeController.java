@@ -1,6 +1,6 @@
 package com.app.conation.controller;
 
-import com.app.conation.dto.DrawResponseDto;
+import com.app.conation.response.dto.DrawRes;
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
 import com.app.conation.service.RandomDrawService;
@@ -24,7 +24,7 @@ public class DrawPrizeController {
         @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @GetMapping("/randomdraw")
-    public BaseResponse<DrawResponseDto> randomDraw() {
+    public BaseResponse<DrawRes> randomDraw() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, randomDrawService.randomDraw(authentication.getPrincipal()));
     }

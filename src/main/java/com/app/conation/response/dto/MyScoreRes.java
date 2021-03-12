@@ -1,4 +1,4 @@
-package com.app.conation.dto;
+package com.app.conation.response.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyScoreResponseDto {
+public class MyScoreRes {
 
     private Long id;
     private String nickname;

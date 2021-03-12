@@ -1,4 +1,4 @@
-package com.app.conation.dto;
+package com.app.conation.response.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DrawResponseDto {
+public class DrawRes {
 
     private String drawResult;
     private Long remainPoint;

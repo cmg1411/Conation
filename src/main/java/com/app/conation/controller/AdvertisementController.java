@@ -8,7 +8,7 @@ import com.app.conation.request.PostAdvertisementReq;
 import com.app.conation.request.ViewAdvertisementReq;
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
-import com.app.conation.response.GetAdvertisementRes;
+import com.app.conation.response.dto.GetAdvertisementRes;
 import com.app.conation.service.AdvertisementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
