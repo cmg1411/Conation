@@ -1,10 +1,23 @@
 package com.app.conation.controller;
 
+import com.app.conation.enums.AdvertisementCategory;
 import com.app.conation.provider.AdvertisementProvider;
+import com.app.conation.request.PostAdvertisementReq;
+import com.app.conation.response.BaseResponse;
+import com.app.conation.response.BaseResponseStatus;
+import com.app.conation.response.GetAdvertisementRes;
 import com.app.conation.service.AdvertisementService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
+@Api(tags = "광고 관리")
 @RestController
 public class AdvertisementController {
 
@@ -15,5 +28,19 @@ public class AdvertisementController {
     public AdvertisementController(AdvertisementProvider advertisementProvider, AdvertisementService advertisementService) {
         this.advertisementProvider = advertisementProvider;
         this.advertisementService = advertisementService;
+    }
+
+    @ApiOperation(value = "광고 목록 조회")
+    @GetMapping("/advertisements")
+    public BaseResponse<List<GetAdvertisementRes>> getAdvertisements(@RequestParam Integer page,
+                                                                     @RequestParam(required = false) AdvertisementCategory category) {
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementProvider.retrieveAdvertisements(pageable, category));
+    }
+
+    @ApiOperation(value = "광고 생성")
+    @PostMapping("/advertisements")
+    public BaseResponse<Long> postAdvertisement(@RequestBody @Valid PostAdvertisementReq request) {
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.createAdvertisement(request));
     }
 }
