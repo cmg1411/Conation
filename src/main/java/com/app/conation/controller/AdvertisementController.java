@@ -11,6 +11,8 @@ import com.app.conation.response.BaseResponseStatus;
 import com.app.conation.response.GetAdvertisementRes;
 import com.app.conation.service.AdvertisementService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -49,24 +51,36 @@ public class AdvertisementController {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementProvider.retrieveAdvertisements(pageable, category));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "광고 생성")
     @PostMapping("/advertisements")
     public BaseResponse<Long> postAdvertisement(@RequestBody @Valid PostAdvertisementReq request) {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.createAdvertisement(request));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "광고 수정")
     @PatchMapping("/advertisements")
     public BaseResponse<Long> updateAdvertisement(@RequestBody @Valid PatchAdvertisementReq request) {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.updateAdvertisement(request));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "광고 삭제")
     @DeleteMapping("/advertisements/{advertisementId}")
     public BaseResponse<Long> deleteAdvertisement(@PathVariable Long advertisementId) {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.deleteAdvertisement(advertisementId));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "광고 시청 완료시 조회수 증가")
     @PatchMapping("/view-advertisements")
     public BaseResponse<Long> viewAdvertisement(@RequestBody @Valid ViewAdvertisementReq viewAdvertisementRequest) {
