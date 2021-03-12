@@ -4,7 +4,7 @@ import com.app.conation.enums.AdvertisementCategory;
 import com.app.conation.provider.AdvertisementProvider;
 import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
-import com.app.conation.request.ViewAdvertisementRequest;
+import com.app.conation.request.ViewAdvertisementReq;
 import com.app.conation.response.BaseResponse;
 import com.app.conation.response.BaseResponseStatus;
 import com.app.conation.response.GetAdvertisementRes;
@@ -60,7 +60,7 @@ public class AdvertisementController {
 
     @ApiOperation(value = "광고 시청 완료시 조회수 증가")
     @PatchMapping("/view-advertisements")
-    public BaseResponse<Long> viewAdvertisement(@RequestBody @Valid ViewAdvertisementRequest viewAdvertisementRequest) {
+    public BaseResponse<Long> viewAdvertisement(@RequestBody @Valid ViewAdvertisementReq viewAdvertisementRequest) {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, advertisementService.viewAdvertisement(viewAdvertisementRequest));
     }
 }

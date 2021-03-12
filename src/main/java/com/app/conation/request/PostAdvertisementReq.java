@@ -14,24 +14,24 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 public class PostAdvertisementReq {
 
-    @NotBlank
+    @NotBlank(message = "광고 이름을 입력해주세요.")
     private String advertisementName;
 
-    @NotBlank
+    @NotBlank(message = "광고 URL을 입력해주세요.")
     private String url;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "광고 시간(초 단위)를 입력해주세요.")
+    @Positive(message = "광고 시간(초 단위)는 양수여야 합니다.")
     private Long length;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "광고 단가를 입력해주세요.")
+    @Positive(message = "광고 단가는 양수여야 합니다.")
     private Long price;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "광고주 번호를 입력해주세요.")
+    @Positive(message = "광고주 번호는 양수여야 합니다.")
     private Long advertisementOwnerId;
 
-    @NotNull
+    @NotNull(message = "광고 카테고리를 입력해주세요.")
     private AdvertisementCategory advertisementCategory;
 }

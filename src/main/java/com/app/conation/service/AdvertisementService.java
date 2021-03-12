@@ -6,7 +6,7 @@ import com.app.conation.domain.State;
 import com.app.conation.exception.BaseException;
 import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
-import com.app.conation.request.ViewAdvertisementRequest;
+import com.app.conation.request.ViewAdvertisementReq;
 import com.app.conation.response.BaseResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +70,7 @@ public class AdvertisementService {
         return optionalAdvertisement.get();
     }
 
-    public Long viewAdvertisement(ViewAdvertisementRequest viewAdvertisementRequest) {
+    public Long viewAdvertisement(ViewAdvertisementReq viewAdvertisementRequest) {
         Advertisement advertisement = getAdvertisementById(viewAdvertisementRequest.getAdvertisementId());
         advertisement.setViewCount(advertisement.getViewCount() + ONE);
         advertisementRepository.save(advertisement);
