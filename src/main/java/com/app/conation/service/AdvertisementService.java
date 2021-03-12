@@ -3,16 +3,13 @@ package com.app.conation.service;
 import com.app.conation.domain.Advertisement;
 import com.app.conation.domain.AdvertisementRepository;
 import com.app.conation.domain.State;
-import com.app.conation.exception.BaseException;
+import com.app.conation.provider.AdvertisementProvider;
 import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
 import com.app.conation.request.ViewAdvertisementReq;
-import com.app.conation.response.BaseResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import static com.app.conation.config.Constant.DEFAULT_VIEW_COUNT;
 import static com.app.conation.config.Constant.ONE;
@@ -22,10 +19,12 @@ import static com.app.conation.config.Constant.ONE;
 public class AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
+    private final AdvertisementProvider advertisementProvider;
 
     @Autowired
-    public AdvertisementService(AdvertisementRepository advertisementRepository) {
+    public AdvertisementService(AdvertisementRepository advertisementRepository, AdvertisementProvider advertisementProvider) {
         this.advertisementRepository = advertisementRepository;
+        this.advertisementProvider = advertisementProvider;
     }
 
     public Long createAdvertisement(PostAdvertisementReq request) {
@@ -45,7 +44,7 @@ public class AdvertisementService {
 
     public Long updateAdvertisement(PatchAdvertisementReq request) {
         Long advertisementId = request.getAdvertisementId();
-        Advertisement advertisement = getAdvertisementById(advertisementId);
+        Advertisement advertisement = advertisementProvider.getAdvertisementById(advertisementId);
         advertisement.setAdvertisementCategory(request.getAdvertisementCategory())
                 .setAdvertisementName(request.getAdvertisementName())
                 .setAdvertisementOwnerId(request.getAdvertisementOwnerId())
@@ -57,21 +56,14 @@ public class AdvertisementService {
     }
 
     public Long deleteAdvertisement(Long advertisementId) {
-        Advertisement advertisement = getAdvertisementById(advertisementId);
+        Advertisement advertisement = advertisementProvider.getAdvertisementById(advertisementId);
         advertisement.setState(State.INACTIVE);
         return advertisementId;
     }
 
-    private Advertisement getAdvertisementById(Long advertisementId) {
-        Optional<Advertisement> optionalAdvertisement = advertisementRepository.findById(advertisementId);
-        if (optionalAdvertisement.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_ADVERTISEMENT);
-        }
-        return optionalAdvertisement.get();
-    }
-
     public Long viewAdvertisement(ViewAdvertisementReq viewAdvertisementRequest) {
-        Advertisement advertisement = getAdvertisementById(viewAdvertisementRequest.getAdvertisementId());
+        Advertisement advertisement = advertisementProvider
+                .getAdvertisementById(viewAdvertisementRequest.getAdvertisementId());
         advertisement.setViewCount(advertisement.getViewCount() + ONE);
         advertisementRepository.save(advertisement);
         return viewAdvertisementRequest.getAdvertisementId();
