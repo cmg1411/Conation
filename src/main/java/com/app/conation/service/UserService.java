@@ -4,6 +4,7 @@ import com.app.conation.domain.Region;
 import com.app.conation.domain.RegionRepository;
 import com.app.conation.domain.User;
 import com.app.conation.domain.UserRepository;
+import com.app.conation.dto.MyScoreResponseDto;
 import com.app.conation.dto.SignInRequestDto;
 import com.app.conation.dto.SignUpRequestDto;
 import com.app.conation.exception.*;
@@ -77,9 +78,13 @@ public class UserService {
         userRepository.deleteById(userIdx);
     }
 
-    public void getPoint(Object principal) {
+    public MyScoreResponseDto getMyPrice(Object principal) {
         Long userIdx = ((User) principal).getId();
-        User selectedUser = userRepository.findByUserId(userIdx.toString()).orElseThrow();
-
+        User selectedUser = userRepository.findById(userIdx).orElseThrow(NotExistUserException::new);
+        return MyScoreResponseDto.builder()
+            .id(selectedUser.getId())
+            .nickname(selectedUser.getNickname())
+            .point(selectedUser.getExperiencePoint())
+            .build();
     }
 }
