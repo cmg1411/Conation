@@ -5,7 +5,7 @@ import com.app.conation.domain.TodayDonationStatus;
 import com.app.conation.domain.TodayDonationStatusRepository;
 import com.app.conation.exception.BaseException;
 import com.app.conation.response.BaseResponseStatus;
-import com.app.conation.response.GetDonationStatusRes;
+import com.app.conation.response.dto.GetDonationStatusRes;
 import com.app.conation.response.RegionDonationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

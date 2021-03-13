@@ -1,4 +1,4 @@
-package com.app.conation.dto;
+package com.app.conation.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInRequestDto {
+public class SignInReq {
 
     @NotBlank
     private String userId;

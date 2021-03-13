@@ -62,7 +62,7 @@ public class JwtProvider {
         Claims payloads = Jwts.claims().setSubject(String.valueOf(user.getId()));
 
         payloads.put("userIdx", user.getId());
-        payloads.put("email", user.getNickname());
+        payloads.put("nickname", user.getNickname());
         payloads.put("roles", roles);
 
         return payloads;

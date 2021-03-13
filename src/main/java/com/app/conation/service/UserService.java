@@ -4,10 +4,13 @@ import com.app.conation.domain.Region;
 import com.app.conation.domain.RegionRepository;
 import com.app.conation.domain.User;
 import com.app.conation.domain.UserRepository;
-import com.app.conation.dto.SignInRequestDto;
-import com.app.conation.dto.SignUpRequestDto;
+import com.app.conation.domain.draw.RandomPrize;
+import com.app.conation.response.dto.MyScoreRes;
+import com.app.conation.request.SignInReq;
+import com.app.conation.request.SignUpReq;
 import com.app.conation.exception.*;
 import com.app.conation.jwt.JwtProvider;
+import com.app.conation.util.StringUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,32 +29,32 @@ public class UserService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
 
-    public void userSignUp(SignUpRequestDto signUpRequestDto) {
-        isPasswordsEqual(signUpRequestDto);
+    public void userSignUp(SignUpReq signUpReq) {
+        isPasswordsEqual(signUpReq);
 
-        isValidId(signUpRequestDto);
+        isValidId(signUpReq);
 
         User signUpUser = User.builder()
-            .userId(signUpRequestDto.getId())
-            .nickname(signUpRequestDto.getNickname())
-            .regionId(getRegionByCityId(signUpRequestDto.getRegionId()))
-            .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
-            .phoneNumber(signUpRequestDto.getPhoneNumber())
+            .userId(signUpReq.getId())
+            .nickname(signUpReq.getNickname())
+            .regionId(getRegionByCityId(signUpReq.getRegionId()))
+            .password(passwordEncoder.encode(signUpReq.getPassword()))
+            .phoneNumber(StringUtility.subHyphen(signUpReq.getPhoneNumber()))
             .roles(Collections.singletonList("ROLE_USER"))
             .build();
 
         userRepository.save(signUpUser);
     }
 
-    private void isValidId(SignUpRequestDto signUpRequestDto) {
-        Optional<User> userFound = userRepository.findByUserId(signUpRequestDto.getId());
+    private void isValidId(SignUpReq signUpReq) {
+        Optional<User> userFound = userRepository.findByUserId(signUpReq.getId());
         if (userFound.isPresent()) {
             throw new AlreadyExistIdException();
         }
     }
 
-    private void isPasswordsEqual(SignUpRequestDto signUpRequestDto) {
-        if ( !signUpRequestDto.getPassword().equals(signUpRequestDto.getPasswordRepeat())) {
+    private void isPasswordsEqual(SignUpReq signUpReq) {
+        if ( !signUpReq.getPassword().equals(signUpReq.getPasswordRepeat())) {
             throw new PasswordsNotEqualException();
         }
     }
@@ -60,13 +63,14 @@ public class UserService {
         return regionRepository.findById(cityId).orElseThrow(RegionNotFoundException::new);
     }
 
-    public String userSignIn(SignInRequestDto signInRequestDto) {
-        User user = userRepository.findByUserId(signInRequestDto.getUserId()).orElseThrow(NotRegisteredIdException::new);
-        isValidPassword(signInRequestDto.getPassword(), user.getPassword());
+    public String userSignIn(SignInReq signInReq) {
+        User user = userRepository.findByUserId(signInReq.getUserId()).orElseThrow(NotRegisteredIdException::new);
+        isValidPassword(signInReq.getPassword(), user.getPassword());
         return jwtProvider.getJWT(user, user.getRoles());
     }
 
     private void isValidPassword(String password, String passwordRe) {
+
         if (!passwordEncoder.matches(password, passwordRe)) {
             throw new InvalidPasswordException();
         }
@@ -75,5 +79,18 @@ public class UserService {
     public void deleteUser(Object principal) {
         Long userIdx = ((User) principal).getId();
         userRepository.deleteById(userIdx);
+    }
+
+    public MyScoreRes getMyPrice(Object principal) {
+        Long userIdx = ((User) principal).getId();
+        User selectedUser = userRepository.findById(userIdx).orElseThrow(NotExistUserException::new);
+        return MyScoreRes.builder()
+            .id(selectedUser.getId())
+            .nickname(selectedUser.getNickname())
+            .myRegion(selectedUser.getRegionId().getRegionName())
+            .point(selectedUser.getExperiencePoint())
+            .todayPrize(RandomPrize.getDayPrice().getPrize())
+            .prizeWinRate(RandomPrize.getDayPrice().getWinningRate())
+            .build();
     }
 }
