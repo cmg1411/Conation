@@ -58,11 +58,16 @@
 
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
 
+## 당첨 !!
+![이미지](img/당첨.png)
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ## Presentation
 ![ppt](/img/pptimg/1.png)
