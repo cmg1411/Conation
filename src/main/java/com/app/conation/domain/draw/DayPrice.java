@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum DayPrice {
-    SUN(1, "베스킨라빈스", 0.3),
-    MON(2, "비타500", 1.0),
-    THU(3, "비타500", 1.0),
-    WEN(4, "비타500", 1.0),
-    TUR(5, "비타500", 1.0),
-    FRI(6, "비타500", 1.0),
-    SAT(7, "스타벅스 아메리카노", 0.3);
+    SUN(1, "베스킨라빈스", 50.0),
+    MON(2, "비타500", 50.0),
+    THU(3, "비타500", 50.0),
+    WEN(4, "비타500", 50.0),
+    TUR(5, "비타500", 50.0),
+    FRI(6, "비타500", 50.0),
+    SAT(7, "스타벅스 아메리카노", 50.0);
 
     private final int dayOfWeek;
     private final String prize;

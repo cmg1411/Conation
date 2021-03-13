@@ -1,7 +1,9 @@
 package com.app.conation.service;
 
 import com.app.conation.domain.*;
+import com.app.conation.exception.NotExistUserException;
 import com.app.conation.provider.AdvertisementProvider;
+import com.app.conation.provider.RegionProvider;
 import com.app.conation.request.PatchAdvertisementReq;
 import com.app.conation.request.PostAdvertisementReq;
 import com.app.conation.request.ViewAdvertisementReq;
@@ -21,12 +23,15 @@ public class AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementProvider advertisementProvider;
     private final DonationStatusService donationStatusService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AdvertisementService(AdvertisementRepository advertisementRepository, AdvertisementProvider advertisementProvider, DonationStatusService donationStatusService) {
+    public AdvertisementService(AdvertisementRepository advertisementRepository, AdvertisementProvider advertisementProvider
+        , DonationStatusService donationStatusService, UserRepository userRepository, RegionProvider regionProvider) {
         this.advertisementRepository = advertisementRepository;
         this.advertisementProvider = advertisementProvider;
         this.donationStatusService = donationStatusService;
+        this.userRepository = userRepository;
     }
 
     public Long createAdvertisement(PostAdvertisementReq request) {
@@ -65,13 +70,17 @@ public class AdvertisementService {
 
     public Long viewAdvertisement(ViewAdvertisementReq viewAdvertisementRequest) {
         Advertisement advertisement = advertisementProvider
-                .getAdvertisementById(viewAdvertisementRequest.getAdvertisementId());
+            .getAdvertisementById(viewAdvertisementRequest.getAdvertisementId());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Region region = ((User) authentication.getPrincipal()).getRegionId();
+        User user = ((User) authentication.getPrincipal());
+        Region region = user.getRegionId();
 
         donationStatusService.addTodayDonationScore(region, advertisement.getScore());
         advertisement.setViewCount(advertisement.getViewCount() + ONE);
         advertisementRepository.save(advertisement);
+
+        long totalMyPoint = user.getExperiencePoint() + advertisement.getScore();
+        userRepository.updateExperiencePoint(totalMyPoint, user.getId());
 
         return viewAdvertisementRequest.getAdvertisementId();
     }
