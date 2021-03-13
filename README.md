@@ -55,3 +55,22 @@
 ## ERD
 
 ![이알](img/erd.png)
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+## Presentation
+![ppt](/img/pptimg/1.png)
+![ppt](/img/pptimg/2.png)
+![ppt](/img/pptimg/3.png)
+![ppt](/img/pptimg/4.png)
+![ppt](/img/pptimg/5.png)
+![ppt](/img/pptimg/6.png)
+![ppt](/img/pptimg/7.png)
+![ppt](/img/pptimg/8.png)
+
