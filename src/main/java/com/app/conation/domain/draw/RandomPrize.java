@@ -14,7 +14,7 @@ public class RandomPrize {
     enum WinningStatus {
         WIN("당첨 !!"), NO("다음 기회에..");
 
-        private String status;
+        private final String status;
 
         WinningStatus(String status) {
             this.status = status;
