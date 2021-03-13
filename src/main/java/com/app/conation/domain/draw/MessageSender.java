@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 public class MessageSender {
@@ -26,6 +28,27 @@ public class MessageSender {
         params.setParam("text", price.getPrize());
         params.setParam("app_version", "Conation v1.0");
         return params;
+    }
+
+    public UserMessageParameters userPhoneNumberSetting(String phoneNumber) {
+        String randomNumber = generateRandomNumber();
+        UserMessageParameters params = new UserMessageParameters();
+        params.setParam("to", phoneNumber);
+        params.setParam("from", ADMIN_PHONE_NUMBER);
+        params.setParam("type", "SMS");
+        params.setParam("text", randomNumber);
+        params.setParam("app_version", "Conation v1.0");
+        return params;
+    }
+
+    public String generateRandomNumber() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            ThreadLocalRandom random = ThreadLocalRandom.current();
+            int randomNumber = random.nextInt(10);
+            stringBuilder.append(randomNumber);
+        }
+        return stringBuilder.toString();
     }
 
     public void sendSMS(UserMessageParameters userParams) {
