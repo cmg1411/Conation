@@ -48,3 +48,10 @@
 - gradle
 - swagger2
 - AWS
+
+<br>
+<br>
+
+## ERD
+
+![이알](img/erd.png)
