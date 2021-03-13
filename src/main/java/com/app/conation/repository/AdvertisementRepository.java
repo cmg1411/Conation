@@ -1,5 +1,7 @@
-package com.app.conation.domain;
+package com.app.conation.repository;
 
+import com.app.conation.domain.Advertisement;
+import com.app.conation.domain.State;
 import com.app.conation.enums.AdvertisementCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

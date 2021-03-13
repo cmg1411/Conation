@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.app.conation.util.Constant.*;
+
 @Component
 public class RandomPrize {
 
@@ -18,6 +20,10 @@ public class RandomPrize {
 
         WinningStatus(String status) {
             this.status = status;
+        }
+
+        public String getStatus() {
+            return status;
         }
     }
 
@@ -40,21 +46,21 @@ public class RandomPrize {
 
     public String draw(User user) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int drawNum = random.nextInt(1000) + 1;
+        int drawNum = random.nextInt(THOUSAND_TO_CALCULATE_RATE) + ONE;
         if (isWinner(drawNum)) {
-            sendMessage(user);
+            sendPrizeMessage(user);
             return WinningStatus.WIN.status;
         }
         return WinningStatus.NO.status;
     }
 
     private boolean isWinner(int drawNum) {
-        double WinnerNum = 1000 * dayPrice.getWinningRate() / 100;
-        return drawNum <= WinnerNum;
+        double winnerNum = THOUSAND_TO_CALCULATE_RATE * dayPrice.getWinningRate() / HUNDRED_TO_CALCULATE_RATE;
+        return drawNum <= winnerNum;
     }
 
-    private void sendMessage(User user) {
-        UserMessageParameters userMessageParameters = messageSender.userInformationSetting(user, getDayPrice());
+    private void sendPrizeMessage(User user) {
+        UserMessageParameters userMessageParameters = messageSender.userInformationSettingToPrize(user, getDayPrice());
         messageSender.sendSMS(userMessageParameters);
     }
 }

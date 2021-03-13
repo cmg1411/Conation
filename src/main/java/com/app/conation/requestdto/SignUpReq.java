@@ -1,4 +1,4 @@
-package com.app.conation.request;
+package com.app.conation.requestdto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;

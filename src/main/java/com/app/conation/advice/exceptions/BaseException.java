@@ -1,4 +1,4 @@
-package com.app.conation.exception;
+package com.app.conation.advice.exceptions;
 
 import com.app.conation.response.BaseResponseStatus;
 import lombok.AllArgsConstructor;

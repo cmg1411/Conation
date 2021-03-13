@@ -1,5 +1,6 @@
-package com.app.conation.domain;
+package com.app.conation.repository;
 
+import com.app.conation.domain.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

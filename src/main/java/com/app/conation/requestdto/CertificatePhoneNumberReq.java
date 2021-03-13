@@ -1,4 +1,4 @@
-package com.app.conation.request;
+package com.app.conation.requestdto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

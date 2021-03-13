@@ -1,4 +1,4 @@
-package com.app.conation.config;
+package com.app.conation.domain;
 
 import lombok.Getter;
 import lombok.Setter;
