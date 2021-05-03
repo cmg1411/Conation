@@ -48,6 +48,10 @@ dependencies {
 	compile group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 }
 
+dependencyManagement {
+	applyMavenExclusions =  false
+}
+
 test {
 	useJUnitPlatform()
 }
